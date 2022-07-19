@@ -1,0 +1,39 @@
+<mat-list role="list">
+    <mat-grid-list cols="4" *ngFor="let item of items" class="padding-top-18">
+        <form *ngIf="itemFormGroup[item.id]" [formGroup]="itemFormGroup[item.id]" autocomplete="off" (ngSubmit)="onSubmit()" >
+            <mat-form-field class="padding-left-right-5">
+                <mat-label>Name</mat-label>
+                <input type="text" matInput formControlName="nameFormControl" #nameInput>
+                <mat-error *ngIf="itemFormGroup[item.id].get('nameFormControl')?.invalid">
+                    {{getNameFormControlErrorMessage(item.id)}}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="padding-left-right-5">
+                <mat-label>Count</mat-label>
+                <input type="text" matInput formControlName="countFormControl" #countInput>
+                <mat-error *ngIf="itemFormGroup[item.id].get('countFormControl')?.invalid">
+                    {{getCountFormControlErrorMessage(item.id)}}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="padding-left-right-5">
+                <mat-label>Price</mat-label>
+                <input type="text" matInput formControlName="priceFormControl" #priceInput>
+                <mat-error *ngIf="itemFormGroup[item.id].get('priceFormControl')?.invalid">
+                    {{getPriceFormControlErrorMessage(item.id)}}
+                </mat-error>
+            </mat-form-field>
+
+            <button type="button" mat-icon-button (click)="removeItem(item.id)">
+                <mat-icon color="primary">delete</mat-icon>
+            </button>
+        </form>
+    </mat-grid-list>
+</mat-list>
+
+<button class="margin-top-15" mat-button (click)="addItem()" color="primary">
+    <mat-icon>add</mat-icon>Add new item
+</button>
+<br />
+<button type="submit" class="margin-top-15" mat-raised-button (click)="onSubmit()" color="primary">Submit</button>

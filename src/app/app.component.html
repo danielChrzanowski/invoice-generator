@@ -1,0 +1,20 @@
+<mat-sidenav-container class="height-100vh">
+  <mat-sidenav class="width-200" mode="side" opened #sidenav="matSidenav">
+    <mat-toolbar>Menu</mat-toolbar>
+    <mat-nav-list>
+      <mat-list-item [routerLink]="['/newInvoice']" (click)="clearInvoiceServiceItems()" [routerLinkActive]="['active']">New Invoice</mat-list-item>
+      <mat-list-item [routerLink]="['/previewInvoice']" [routerLinkActive]="['active']">Preview Invoice</mat-list-item>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary" class="header-content">
+      <button mat-icon-button *ngIf="sidenav.mode === 'over'" (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      KLG invoice generator
+    </mat-toolbar>
+    <div class="padding-10">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
