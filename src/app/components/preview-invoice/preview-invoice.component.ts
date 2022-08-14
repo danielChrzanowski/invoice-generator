@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Item } from './../../models/item';
 import { CompanyService } from './../../services/company/company.service';
 import { InvoiceListService } from './../../services/invoice-list/invoice-list.service';
@@ -10,12 +11,12 @@ import { InvoiceListService } from './../../services/invoice-list/invoice-list.s
 })
 export class PreviewInvoiceComponent implements OnInit {
   displayedColumns: string[] = Object.keys(new Item(-1, "", 0, 0));
-  items: Array<Item> = [];
+  items: Observable<Array<Item> | any> | undefined;
   itemsSum: number = 0;
 
-  companyName: string = "";
-  companyAddress: string = "";
-  companyPhones: Array<string> = [];
+  companyName: Observable<string> | undefined;
+  companyAddress: Observable<string> | undefined;
+  companyPhones: Observable<Array<string>> | undefined;
 
   constructor(
     private companyService: CompanyService,
@@ -25,13 +26,13 @@ export class PreviewInvoiceComponent implements OnInit {
   ngOnInit(): void {
     this.companyService.getCompanyData('/assets/company.json')
       .subscribe(data => {
-        this.companyName = data.name;
-        this.companyAddress = data.address;
-        this.companyPhones = data.phones;
+        this.companyName = new Observable(ob => ob.next(data.name));
+        this.companyAddress = new Observable(ob => ob.next(data.address));
+        this.companyPhones = new Observable(ob => ob.next(data.phones.join(', ')));
       });
 
     this.invoiceListService.itemsState.subscribe((items) => {
-      this.items = items;
+      this.items = new Observable(ob => ob.next(items));
       items.forEach(element => {
         this.itemsSum += element.count * element.price;
       });

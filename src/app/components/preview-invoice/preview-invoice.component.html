@@ -1,9 +1,9 @@
-<h2>{{companyName}}</h2>
-<h3>{{companyAddress}}</h3>
-<p>Phones: {{companyPhones.join(', ')}}</p>
+<h2>{{companyName|async}}</h2>
+<h3>{{companyAddress|async}}</h3>
+<p>Phones: {{companyPhones|async}}</p>
 <hr>
-<div *ngIf="items.length > 0; else noItems">
-    <table mat-table [dataSource]="items" class="mat-elevation-z8">
+<div *ngIf="(items | async).length !== 0; else noItems">
+    <table mat-table [dataSource]="items | async" class="mat-elevation-z8">
         <ng-container *ngFor="let column of displayedColumns" [matColumnDef]=column>
             <th mat-header-cell *matHeaderCellDef> {{column}} </th>
             <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
